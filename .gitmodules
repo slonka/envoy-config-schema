@@ -22,3 +22,6 @@
 [submodule "libs/github.com/prometheus/client_model"]
 	path = libs/github.com/prometheus/client_model
 	url = git@github.com:prometheus/client_model.git
+[submodule "libs/github.com/protobuf"]
+	path = libs/github.com/protobuf
+	url = https://github.com/protocolbuffers/protobuf
