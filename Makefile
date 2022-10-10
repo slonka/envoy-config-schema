@@ -15,11 +15,14 @@ install-deps:
 	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.1
 
 generate-json-schema:
-	$(MAKE) generate-json-schema-version VERSION=v2
-	$(MAKE) generate-json-schema-version VERSION=v3
+	$(MAKE) generate-bootstrap-schema-version VERSION=v2
+	$(MAKE) generate-bootstrap-schema-version VERSION=v3
 
 BUILD_DIR=./build
 BUILD_TMP_DIR=$(BUILD_DIR)/tmp
+
+generate-bootstrap-schema-version:
+	$(MAKE) generate-json-schema-version FILE="$(PWD)/libs/github.com/envoyproxy/envoy/api/envoy/config/bootstrap/$(VERSION)/bootstrap.proto"
 
 generate-json-schema-version:
 	@-rm -rf $(BUILD_TMP_DIR) && mkdir -p $(BUILD_TMP_DIR)
@@ -33,6 +36,6 @@ generate-json-schema-version:
 		-I$(PWD)/libs/github.com/open-telemetry/opentelemetry-proto \
 		-I$(PWD)/libs/github.com/prometheus/client_model \
 		-I$(PWD)/libs/github.com/envoyproxy/envoy/api \
-		$(PWD)/libs/github.com/envoyproxy/envoy/api/envoy/config/bootstrap/$(VERSION)/bootstrap.proto
+		$(FILE)
 	ls $(BUILD_TMP_DIR) | xargs -I {} mv $(BUILD_TMP_DIR)/{} $(BUILD_DIR)/$(VERSION)_{}
 	rm -rf $(BUILD_TMP_DIR)
